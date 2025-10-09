@@ -68,3 +68,41 @@ a:hover{
 button:hover{
     opacity: 0.85;
 }
+
+@media (max-width: 480px){
+    body{
+        padding: 20px;
+    }
+    .card{
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 360px;
+        padding: 20px;
+        gap: 16px;
+        transform: scale(1);
+    }
+    .card:hover{
+        transform: scale(1.03);
+    }
+    .avatar{
+        width: 65%;
+        max-width: 220px;
+        height: auto;
+    }
+    .details{
+        width: 100%;
+        margin: 0;
+        font-size: 14px;
+    }
+    .details h1{
+        font-size: 24px;
+    }
+    button{
+        width: auto;
+        padding: 10px 24px;
+    }
+    a{
+        font-size: 20px;
+    }
+}
