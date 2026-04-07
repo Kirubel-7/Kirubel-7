@@ -49,6 +49,8 @@ startMatrix();
 const trigger = document.getElementById("easter-egg-trigger");
 const overlay = document.getElementById("hack-overlay");
 const closeOverlay = document.getElementById("close-overlay");
+const skillsShell = document.querySelector(".skills-shell");
+const skillsToggle = document.getElementById("skills-toggle");
 
 function openOverlay() {
   overlay.classList.add("active");
@@ -75,3 +77,11 @@ window.addEventListener("keydown", (event) => {
     dismissOverlay();
   }
 });
+
+if (skillsShell && skillsToggle) {
+  skillsToggle.addEventListener("click", () => {
+    const isOpen = skillsShell.classList.toggle("open");
+    skillsToggle.setAttribute("aria-expanded", String(isOpen));
+    skillsToggle.textContent = isOpen ? "Hide skills menu" : "Open skills menu";
+  });
+}

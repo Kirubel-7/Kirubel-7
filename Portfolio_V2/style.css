@@ -319,6 +319,32 @@ h4 {
   padding: 0.9rem 1rem;
 }
 
+.skills-shell {
+  display: block;
+}
+
+.skills-toggle {
+  display: none;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.1rem;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.skills-toggle::after {
+  content: "+";
+  float: right;
+  color: var(--accent-strong);
+}
+
+.skills-shell.open .skills-toggle::after {
+  content: "-";
+}
+
 .value-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -421,5 +447,19 @@ h4 {
   .hero-stats li,
   .chips span {
     width: 100%;
+  }
+
+  .skills-toggle {
+    display: block;
+  }
+
+  .skills-shell .chips {
+    display: none;
+    margin-top: 0.85rem;
+    flex-direction: column;
+  }
+
+  .skills-shell.open .chips {
+    display: flex;
   }
 }
