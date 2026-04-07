@@ -51,6 +51,7 @@ const overlay = document.getElementById("hack-overlay");
 const closeOverlay = document.getElementById("close-overlay");
 const skillsShell = document.querySelector(".skills-shell");
 const skillsToggle = document.getElementById("skills-toggle");
+const phoneRevealCard = document.getElementById("phone-reveal-card");
 
 function openOverlay() {
   overlay.classList.add("active");
@@ -83,5 +84,14 @@ if (skillsShell && skillsToggle) {
     const isOpen = skillsShell.classList.toggle("open");
     skillsToggle.setAttribute("aria-expanded", String(isOpen));
     skillsToggle.textContent = isOpen ? "Hide skills menu" : "Open skills menu";
+  });
+}
+
+if (phoneRevealCard) {
+  phoneRevealCard.addEventListener("click", (event) => {
+    if (!phoneRevealCard.classList.contains("revealed")) {
+      event.preventDefault();
+      phoneRevealCard.classList.add("revealed");
+    }
   });
 }

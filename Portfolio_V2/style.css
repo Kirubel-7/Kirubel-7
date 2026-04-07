@@ -446,6 +446,36 @@ h4 {
   line-height: 1.5;
 }
 
+.reveal-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.reveal-value {
+  filter: blur(7px);
+  opacity: 0.72;
+  transition: filter 260ms ease, opacity 260ms ease, letter-spacing 260ms ease;
+}
+
+.reveal-hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.reveal-card.revealed .reveal-value {
+  filter: blur(0);
+  opacity: 1;
+  letter-spacing: 0.04em;
+}
+
+.reveal-card.revealed .reveal-hint {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
 .hack-overlay {
   z-index: 20;
   display: grid;
