@@ -52,6 +52,8 @@ const closeOverlay = document.getElementById("close-overlay");
 const skillsShell = document.querySelector(".skills-shell");
 const skillsToggle = document.getElementById("skills-toggle");
 const phoneRevealCard = document.getElementById("phone-reveal-card");
+const projectsNav = document.querySelector(".nav-dropdown");
+const projectsNavToggle = document.getElementById("projects-nav-toggle");
 
 function openOverlay() {
   overlay.classList.add("active");
@@ -92,6 +94,20 @@ if (phoneRevealCard) {
     if (!phoneRevealCard.classList.contains("revealed")) {
       event.preventDefault();
       phoneRevealCard.classList.add("revealed");
+    }
+  });
+}
+
+if (projectsNav && projectsNavToggle) {
+  projectsNavToggle.addEventListener("click", () => {
+    const isOpen = projectsNav.classList.toggle("open");
+    projectsNavToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!projectsNav.contains(event.target)) {
+      projectsNav.classList.remove("open");
+      projectsNavToggle.setAttribute("aria-expanded", "false");
     }
   });
 }

@@ -25,7 +25,26 @@
     <div class="brand">K7E  //SYS</div>
     <nav class="nav">
       <a href="#about">About</a>
-      <a href="#projects">Roadmap</a>
+      <div class="nav-dropdown">
+        <button
+          class="nav-dropdown-toggle"
+          id="projects-nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="projects-nav-menu"
+        >
+          Projects
+        </button>
+        <div class="nav-dropdown-menu" id="projects-nav-menu">
+          <a href="#projects">Roadmap</a>
+          <a href="https://hi-l-co-e-rms.vercel.app/" target="_blank" rel="noreferrer">
+            HiLCoE RMS
+          </a>
+          <a href="https://taskapp.kirubel7.me/" target="_blank" rel="noreferrer">
+            Task App
+          </a>
+        </div>
+      </div>
       <a href="#experience">Experience</a>
       <a href="#stack">Stack</a>
       <a href="#contact">Contact</a>
@@ -136,6 +155,16 @@
               expanded into small full-stack applications to improve backend
               structure, debugging, and API integration.
             </p>
+            <div class="project-links">
+              <a
+                class="button primary"
+                href="https://taskapp.kirubel7.me/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Launch Task Flow
+              </a>
+            </div>
           </div>
         </article>
 
