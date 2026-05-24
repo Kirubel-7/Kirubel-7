@@ -1,113 +1,72 @@
-const canvas = document.getElementById("matrix-rain");
-const context = canvas.getContext("2d");
+// ────────────────────────────────────────────────────────────
+//   Kirubel Esayas — Portfolio
+//   Minimal interactions: mobile nav + reveal-on-scroll
+// ────────────────────────────────────────────────────────────
 
-const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*<>[]{}";
-let columns = [];
-let fontSize = 18;
-let animationFrameId = null;
+(() => {
+  "use strict";
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  const columnCount = Math.ceil(canvas.width / fontSize);
-  columns = Array.from({ length: columnCount }, () => Math.random() * -100);
-}
+  // ─── Mobile nav ─────────────────────────────────────────────
+  const navToggle = document.getElementById("nav-toggle");
+  const navLinks  = document.querySelector(".nav-links");
 
-function drawMatrix() {
-  context.fillStyle = "rgba(2, 5, 3, 0.08)";
-  context.fillRect(0, 0, canvas.width, canvas.height);
+  if (navToggle && navLinks) {
+    const closeNav = () => {
+      navLinks.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", "Open menu");
+    };
 
-  context.fillStyle = "#59ff87";
-  context.font = `${fontSize}px "Share Tech Mono", monospace`;
+    navToggle.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    });
 
-  columns.forEach((y, index) => {
-    const text = chars[Math.floor(Math.random() * chars.length)];
-    const x = index * fontSize;
-    context.fillText(text, x, y);
+    // Close on link tap
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", closeNav);
+    });
 
-    if (y > canvas.height + Math.random() * 1000) {
-      columns[index] = Math.random() * -500;
-    } else {
-      columns[index] = y + fontSize;
-    }
-  });
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && navLinks.classList.contains("open")) {
+        closeNav();
+      }
+    });
 
-  animationFrameId = window.requestAnimationFrame(drawMatrix);
-}
-
-function startMatrix() {
-  if (animationFrameId) {
-    window.cancelAnimationFrame(animationFrameId);
+    // Close on outside click
+    document.addEventListener("click", (e) => {
+      if (
+        navLinks.classList.contains("open") &&
+        !navLinks.contains(e.target) &&
+        !navToggle.contains(e.target)
+      ) {
+        closeNav();
+      }
+    });
   }
-  resizeCanvas();
-  drawMatrix();
-}
 
-window.addEventListener("resize", resizeCanvas);
-startMatrix();
+  // ─── Reveal on scroll ───────────────────────────────────────
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const targets = document.querySelectorAll(".reveal");
 
-const trigger = document.getElementById("easter-egg-trigger");
-const overlay = document.getElementById("hack-overlay");
-const closeOverlay = document.getElementById("close-overlay");
-const skillsShell = document.querySelector(".skills-shell");
-const skillsToggle = document.getElementById("skills-toggle");
-const phoneRevealCard = document.getElementById("phone-reveal-card");
-const projectsNav = document.querySelector(".nav-dropdown");
-const projectsNavToggle = document.getElementById("projects-nav-toggle");
-
-function openOverlay() {
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden", "false");
-  document.body.classList.add("overlay-open");
-}
-
-function dismissOverlay() {
-  overlay.classList.remove("active");
-  overlay.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("overlay-open");
-}
-
-trigger.addEventListener("click", openOverlay);
-closeOverlay.addEventListener("click", dismissOverlay);
-overlay.addEventListener("click", (event) => {
-  if (event.target === overlay) {
-    dismissOverlay();
+  if (reduced || !("IntersectionObserver" in window)) {
+    targets.forEach(el => el.classList.add("in"));
+    return;
   }
-});
 
-window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && overlay.classList.contains("active")) {
-    dismissOverlay();
-  }
-});
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
+  );
 
-if (skillsShell && skillsToggle) {
-  skillsToggle.addEventListener("click", () => {
-    const isOpen = skillsShell.classList.toggle("open");
-    skillsToggle.setAttribute("aria-expanded", String(isOpen));
-    skillsToggle.textContent = isOpen ? "Hide skills menu" : "Open skills menu";
-  });
-}
-
-if (phoneRevealCard) {
-  phoneRevealCard.addEventListener("click", (event) => {
-    if (!phoneRevealCard.classList.contains("revealed")) {
-      event.preventDefault();
-      phoneRevealCard.classList.add("revealed");
-    }
-  });
-}
-
-if (projectsNav && projectsNavToggle) {
-  projectsNavToggle.addEventListener("click", () => {
-    const isOpen = projectsNav.classList.toggle("open");
-    projectsNavToggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!projectsNav.contains(event.target)) {
-      projectsNav.classList.remove("open");
-      projectsNavToggle.setAttribute("aria-expanded", "false");
-    }
-  });
-}
+  targets.forEach(el => io.observe(el));
+})();
